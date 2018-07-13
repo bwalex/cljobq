@@ -1,4 +1,4 @@
-(defproject cljobq "0.1.2"
+(defproject cljobq "0.1.3"
   :description "A simple PostgreSQL-based job queue"
   :url "https://github.com/bwalex/cljobq"
   :license {:name "Eclipse Public License"

@@ -1,5 +1,6 @@
 (ns cljobq.cron
-  (:require [java-time :as jt])
+  (:require [cljobq.util :as util]
+            [java-time :as jt])
   (:import (com.cronutils.model Cron CronType)
            (com.cronutils.model.definition CronDefinition CronDefinitionBuilder)
            (com.cronutils.model.time ExecutionTime)
@@ -68,10 +69,10 @@
   ([v dt]
    (next-run-after :unix v dt))
   ([t v dt]
-   (let [zdt (jt/zoned-date-time dt)
+   (let [zdt (jt/with-zone-same-instant (jt/zoned-date-time dt) "UTC")
          cron (validate t v)
          et (ExecutionTime/forCron cron)]
-     (jt/offset-time (.get (.nextExecution et zdt))))))
+     (util/->offset-time-zulu (.get (.nextExecution et zdt))))))
 
 (defn next-run
   "Get the next execution time for the cron expression `v` from

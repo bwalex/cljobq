@@ -382,6 +382,7 @@
      :or {context @global-ctx*}}]
    {:pre [(contains? context :db)]}
    (migratus/migrate {:store :database
+                      :migration-dir "cljobq/migrations"
                       :migration-table-name "cljobq_migrations"
                       :db (:db context)})))
 

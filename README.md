@@ -2,9 +2,7 @@
 
 A simple Clojure PostgreSQL-based job queue. An optional web UI is also available as both a [library][cljobq-web] and a [standalone service][cljobq-web-server].
 
-```clojure
-[cljobq "0.1.2"] ; add this to your project.clj
-```
+![](https://clojars.org/compojure/latest-version.svg)
 
 ## Usage
 
