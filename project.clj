@@ -1,10 +1,10 @@
-(defproject cljobq "0.1.4"
+(defproject cljobq "0.1.5"
   :description "A simple PostgreSQL-based job queue"
   :url "https://github.com/bwalex/cljobq"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[clojure.java-time "0.3.2"]
-                 [com.layerware/hugsql "0.4.9"]
+                 [org.clojure/java.jdbc "0.7.8"]
                  [com.cronutils/cron-utils "7.0.2"]
                  [danlentz/clj-uuid "0.1.7"]
                  [migratus "0.9.8"]

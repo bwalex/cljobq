@@ -21,7 +21,7 @@
     (job/set-job-last-error!
       db
       {:id id
-       :last_error err-msg})))
+       :last-error err-msg})))
 
 (defn ^:no-doc work-loop
   "The main work loop for a queue worker."
@@ -40,14 +40,14 @@
                 stop-ch :stopped
                 :default (job/pick-job-by-queue!
                            db
-                           {:queue_name queue-name
-                            :base_timeout timeout
-                            :max_timeout max-timeout
-                            :backoff_factor backoff-factor})
+                           {:queue queue-name
+                            :base-timeout timeout
+                            :max-timeout max-timeout
+                            :backoff-factor backoff-factor})
                 :priority true)]
         (when-not (= v :stopped)
           (do
-            (if-let [{:keys [id actor payload attempt last_error interval]} v]
+            (if-let [{:keys [id actor payload attempt last-error interval]} v]
               ;; A job ready for running was picked
               (if (> attempt max-attempts)
                 ;; The job has exceeded its maximum number of retries. Log the
@@ -59,15 +59,15 @@
                     (str
                       "Job " id " for actor " actor
                       " has failed too many times (" max-attempts "). Last error:"
-                      "\n" last_error))
+                      "\n" last-error))
                   (if interval
                     (job/reenqueue-and-fail-job!
                       db
                       {:id id
-                       :run_at (util/->offset-time-zulu
+                       :run-at (util/->offset-time-zulu
                                  (cron/next-run interval))})
                     (job/delete-and-fail-job! db {:id id}))
-                  (job/inc-queue-fail! db {:queue_name queue-name, :retries max-attempts}))
+                  (job/inc-queue-fail! db {:queue queue-name, :retries max-attempts}))
                 ;; Run the actor function with the specified arguments and, if
                 ;; successful, either delete the job (if it's not a recurring
                 ;; job), or re-enqueue it with its next execution time
@@ -79,10 +79,10 @@
                     (if interval
                       (job/reenqueue-job!
                         db {:id id
-                            :run_at (util/->offset-time-zulu
+                            :run-at (util/->offset-time-zulu
                                       (cron/next-run interval))})
                       (job/delete-job! db {:id id}))
-                    (job/inc-queue-success! db {:queue_name queue-name, :retries attempt}))
+                    (job/inc-queue-success! db {:queue queue-name, :retries attempt}))
                   ;; If the job fails with an Exception, log the error but
                   ;; otherwise don't do anything. If we are here, the job
                   ;; has not exceeded yet its retries, and another retry for

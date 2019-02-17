@@ -167,12 +167,12 @@
     (job/dbjob->friendly-job
       (job/upsert-job!
         (:db context)
-        {:queue_name queue
-         :job job-name
+        {:queue queue
+         :job-name job-name
          :actor actor-str
          :payload payload-str
          :interval interval
-         :run_at (util/->offset-time-zulu run-at)}))))
+         :run-at (util/->offset-time-zulu run-at)}))))
 
 (defn delete-job
   "Delete a specific job `job-name` from the specified queue. Deleting a job
@@ -199,8 +199,8 @@
          (string? job-name)]}
   (job/delete-job-by-name!
     (:db context)
-    {:queue_name queue
-     :job job-name}))
+    {:queue queue
+     :job-name job-name}))
 
 (defn delete-queue-jobs
   "Delete all jobs from the specified queue. Returns the number of jobs
@@ -224,7 +224,7 @@
          (string? queue)]}
   (job/delete-queue-jobs!
     (:db context)
-    {:queue_name queue}))
+    {:queue queue}))
 
 (defn list-jobs
   "List all non-failed jobs. If `queue` is specified, only jobs for that queue
