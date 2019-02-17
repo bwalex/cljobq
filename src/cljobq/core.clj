@@ -466,7 +466,7 @@
   ([]
    (stop @global-ctx*))
   ([run-info-or-ctx]
-   (let [run-info (if (contains? :stop-ch run-info-or-ctx)
+   (let [run-info (if (contains? run-info-or-ctx :stop-ch)
                     run-info-or-ctx
                     @(:run-info* run-info-or-ctx))
          {:keys [stop-ch thread-chs]} run-info]
