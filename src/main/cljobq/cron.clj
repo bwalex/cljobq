@@ -1,11 +1,10 @@
 (ns cljobq.cron
   (:require [cljobq.util :as util]
             [java-time :as jt])
-  (:import (com.cronutils.model Cron CronType)
-           (com.cronutils.model.definition CronDefinition CronDefinitionBuilder)
+  (:import (com.cronutils.model CronType)
+           (com.cronutils.model.definition CronDefinitionBuilder)
            (com.cronutils.model.time ExecutionTime)
-           (com.cronutils.parser CronParser)
-           (java.time ZonedDateTime)))
+           (com.cronutils.parser CronParser)))
 
 (defonce ^:no-doc quartz-parser
   (let [d (CronDefinitionBuilder/instanceDefinitionFor CronType/QUARTZ)]
@@ -43,10 +42,9 @@
    (valid? :unix v))
   ([t v]
    (try
-     (do
-       (validate t v)
-       true)
-     (catch IllegalArgumentException e
+     (validate t v)
+     true
+     (catch IllegalArgumentException _
        false))))
 
 (defn error-msg
@@ -57,9 +55,8 @@
    (valid? :unix v))
   ([t v]
    (try
-     (do
-       (validate t v)
-       nil)
+     (validate t v)
+     nil
      (catch IllegalArgumentException e
        (.getMessage e)))))
 

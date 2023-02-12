@@ -86,7 +86,7 @@
    (for [s stats]
      [:span.stats-label {} (:label s)])])
 
-(defn form-link-button [{:keys [anti-forgery-token] :as request}
+(defn form-link-button [{:keys [anti-forgery-token] :as _request}
                         action label]
   [:form {:action action, :method "POST", :style "display: inline;"}
    (hidden-field "__anti-forgery-token" anti-forgery-token)
@@ -231,7 +231,7 @@
         (job-table jobs (job-columns request))
         (job-list-scripts)]]]))
 
-(defn failed-job-list [{:keys [request filt flash queue queue-names jobs stats]}]
+(defn failed-job-list [{:keys [request flash queue queue-names jobs stats]}]
   (html
     [:html {}
      (head "Failed jobs")
@@ -252,7 +252,7 @@
         (job-table jobs (failed-job-columns request))
         (job-list-scripts)]]]))
 
-(defn recurring-job-list [{:keys [request filt flash queue queue-names jobs stats]}]
+(defn recurring-job-list [{:keys [request flash queue queue-names jobs stats]}]
   (html
     [:html {}
      (head "Recurring jobs")
@@ -357,7 +357,7 @@
                  [:div.tile-subtitle {} (render-fn job)]]]))]]]])))
 
 (defn single-failed-job [{:keys [flash job]}]
-  (let [{:keys [id related-job-id related-job job-name queue]} job]
+  (let [{:keys [id job-name queue]} job]
     (html
       [:html {}
        (head (str "Failed job " job-name))

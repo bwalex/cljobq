@@ -2,10 +2,7 @@
   (:require
     [clj-uuid :as uuid]
     [clojure.core.async :as async]
-    [clojure.edn :as edn]
     [clojure.spec.alpha :as s]
-    [clojure.string :as str]
-    [clojure.tools.logging :as log]
     [java-time :as jt]
     [migratus.core :as migratus]
     [cljobq.cron :as cron]
@@ -157,10 +154,9 @@
    :actor \"user/*-and-log\"}
   ```"
 
-  [{:keys [context queue job-name run-at interval actor args]
+  [{:keys [context queue job-name interval actor args]
     :or {context @global-ctx*
          job-name (uuid/v1)
-         run-at nil
          interval nil
          args []}}]
   {:pre [(contains? context :db)

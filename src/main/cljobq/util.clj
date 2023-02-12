@@ -16,8 +16,7 @@
 
 (defn valid-date-time? [dt]
   (try
-    (do
-      (jt/offset-date-time dt)
-      true)
-    (catch Exception e
+    (jt/offset-date-time dt)
+    true
+    (catch Exception _
       false)))

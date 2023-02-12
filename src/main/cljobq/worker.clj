@@ -4,7 +4,6 @@
     [clojure.edn :as edn]
     [clojure.string :as str]
     [clojure.tools.logging :as log]
-    [java-time :as jt]
     [cljobq.cron :as cron]
     [cljobq.job :as job]
     [cljobq.util :as util]))
