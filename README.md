@@ -48,7 +48,7 @@ See the [API documentation][API-web] for more detailed usage information, includ
 
 ;; Create the cljobq-web handler
 (def cljobq-handler
-  (cljobq.web.core/make-handler
+  (cljobq.web/make-handler
     {:db {:connection-uri \"jdbc:postgresql://localhost:5432/jobqtest?user=test&password=test\"}))
 
 ;; Start an HTTP server with the handler (e.g. with http-kit)
