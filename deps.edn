@@ -1,0 +1,55 @@
+{:paths ["src/main"]
+ :deps
+ {org.clojure/clojure                  {:mvn/version  "1.11.1"}
+  org.clojure/core.async               {:mvn/version  "1.6.673"}
+  org.clojure/java.jdbc                {:mvn/version  "0.7.8"}
+  org.clojure/tools.logging            {:mvn/version  "0.4.0"}
+  org.postgresql/postgresql            {:mvn/version "42.5.3"}
+  clojure.java-time/clojure.java-time  {:mvn/version  "1.2.0"}
+  com.cronutils/cron-utils             {:mvn/version  "7.0.2"}
+  danlentz/clj-uuid                    {:mvn/version  "0.1.7"}
+  migratus/migratus                    {:mvn/version  "0.9.8"}
+  ;; web-only
+  compojure/compojure                  {:mvn/version  "1.6.1"}
+  hiccup/hiccup                        {:mvn/version  "1.0.5"}
+  ring/ring-codec                      {:mvn/version  "1.1.1"}
+  ring/ring-defaults                   {:mvn/version  "0.3.2"}
+  ,}
+
+ :aliases
+ {:dev
+  {:extra-deps
+   {org.slf4j/slf4j-log4j12       {:mvn/version  "1.7.9"}
+    ,}}
+
+  :web/standalone
+  {:extra-paths ["src/standalone"]
+   :extra-deps
+   {org.clojure/tools.cli         {:mvn/version  "0.3.7"}
+    com.carouselapps/to-jdbc-uri  {:mvn/version  "0.5.0"}
+    http-kit/http-kit             {:mvn/version  "2.6.0"}
+    io.aviso/logging              {:mvn/version  "1.0"}
+    ,}}
+
+  :build
+  {:deps
+   {io.github.clojure/tools.build  {:mvn/version  "0.9.3"}
+    ,}
+
+   :ns-default build}
+
+  :kondo
+  {:extra-deps {clj-kondo/clj-kondo {:mvn/version "RELEASE"}}
+   :main-opts ["-m" "clj-kondo.main" "--lint" "src/main"]}
+
+  :kibit
+  {:extra-deps {jonase/kibit {:mvn/version "0.1.8"}}
+   :main-opts ["-e"
+               "(require,'[kibit.driver,:as,k]),(k/external-run,[\"src/main\"],nil)"]}
+
+  :codox
+  {:extra-deps {codox/codox  {:mvn/version  "0.10.8"}}
+   :main-opts ["-e"
+               "(require,'[codox.main,:as,codox]),(codox/generate-docs,{:source-paths,[\"src/main\"],:metadata,{:doc/format,:markdown,},},)"]}
+  ,}
+ ,}

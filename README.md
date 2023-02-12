@@ -1,6 +1,6 @@
 # cljobq
 
-A simple Clojure PostgreSQL-based job queue. An optional web UI is also available as both a [library][cljobq-web] and a [standalone service][cljobq-web-server].
+A simple Clojure PostgreSQL-based job queue. An optional web UI is also available as both a library and a [standalone service][cljobq-web-server].
 
 ![](https://clojars.org/cljobq/latest-version.svg)
 
@@ -39,6 +39,24 @@ See the [API documentation][API] for more detailed usage information, including 
    :interval "15 23 * * *"})
 ```
 
+### Web UI
+
+See the [API documentation][API-web] for more detailed usage information, including examples.
+
+```clojure
+(require 'cljobq.web)
+
+;; Create the cljobq-web handler
+(def cljobq-handler
+  (cljobq.web.core/make-handler
+    {:db {:connection-uri \"jdbc:postgresql://localhost:5432/jobqtest?user=test&password=test\"}))
+
+;; Start an HTTP server with the handler (e.g. with http-kit)
+(require 'org.httpkit.server)
+(org.httpkit.server/run-server cljobq-handler)
+```
+
+
 ## License
 
 Copyright © 2018 Alex Hornung
@@ -48,5 +66,5 @@ your option) any later version.
 
 
 [API]: https://bwalex.github.io/cljobq/cljobq.core.html
-[cljobq-web]: https://github.com/bwalex/cljobq-web
+[API-web]: https://bwalex.github.io/cljobq/cljobq.web.html
 [cljobq-web-server]: https://github.com/bwalex/cljobq-web-server
