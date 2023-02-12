@@ -2,7 +2,8 @@
   (:require
     [clojure.string :as str]
     [clojure.tools.build.api :as b]
-    [clojure.tools.deps :as t]))
+    [clojure.tools.deps :as t]
+    [deps-deploy.deps-deploy :as dd]))
 
 (def version (format "0.2.%s" (b/git-count-revs nil)))
 
@@ -64,3 +65,15 @@
            :uber-file uber-file
            :main 'cljobq.web.standalone
            :basis basis-uber}))
+
+(defn deploy-only [_]
+  (dd/deploy  {:installer :remote :artifact  (b/resolve-path jar-file)
+               :pom-file  (b/pom-path {:class-dir class-dir
+                                       :lib lib})}))
+
+(defn deploy [_]
+  (clean _)
+  (run-task [:kondo])
+  (jar _)
+  (deploy-only _)
+  ,)
