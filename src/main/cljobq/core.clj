@@ -37,6 +37,10 @@
                             Defaults to 3.
   - `:default-num-threads`  The default number of worker threads for a queue.
                             Defaults to 1.
+  - `:app/context`          An optional application-specific context passed
+                            as first argument to all job function invocations.
+                            If not provided, the parameter will not omitted
+                            from the job function invocation.
 
   Example:
 
@@ -56,14 +60,19 @@
          default-num-threads 1
          default-max-attempts 3}
     :as context}]
-  {:db db
-   :run-info* (atom nil)
-   :default-timeout default-timeout
-   :default-num-threads default-num-threads
-   :default-max-timeout default-max-timeout
-   :default-backoff-factor 1.8
-   :default-max-attempts default-max-attempts
-   :default-poll-interval 30})
+  (cond->
+    {:db db
+     :run-info* (atom nil)
+     :default-timeout default-timeout
+     :default-num-threads default-num-threads
+     :default-max-timeout default-max-timeout
+     :default-backoff-factor 1.8
+     :default-max-attempts default-max-attempts
+     :default-poll-interval 30}
+
+    ;; Copy over :app/context, if specified
+    (contains? context :app/context)
+    (assoc :app/context (:app/context context))))
 
 (defn set-context!
   "Set the global context `cljobq.core/global-ctx*` based on the passed in
@@ -490,6 +499,7 @@
 (s/def ::context
   (s/keys
     :req-un [::db]
+    :opt    [:app/context]
     :opt-un [::default-timeout
              ::default-num-threads
              ::default-max-timeout
@@ -506,7 +516,8 @@
              ::default-backoff-factor
              ::default-max-attempts
              ::default-poll-interval
-             ::run-info*]))
+             ::run-info*]
+    :opt    [:app/context]))
 
 (s/def ::run-info
   (s/keys
