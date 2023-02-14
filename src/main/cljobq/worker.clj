@@ -101,8 +101,8 @@
             (let [wait-secs (rand-int poll-interval)]
               (async/alt!!
                 stop-ch :stopped
-                (async/timeout (* wait-secs 1000)) :timed-out)))))
-      (recur))))
+                (async/timeout (* wait-secs 1000)) :timed-out)))
+          (recur))))))
 
 (defn ^:no-doc start-queue-threads [context queue-name qdef stop-ch]
   (let [{:keys [num-threads]} qdef
